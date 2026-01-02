@@ -5,58 +5,38 @@ const router = express.Router();
 const Auth = require('../middleware/AuthVerification');
 
 // CONTROLLERS
-const ProductController = require('../controller/ProductController');
 const UserController = require('../controller/UserController');
-const WishController = require('../controller/WishController');
-const CartController = require('../controller/CartController');
-const InvoiceController = require('../controller/InvoiceController');
+const AdminController = require('../controller/AdminController');
+const ClientController = require('../controller/ClientController');
+const EmployeeController = require('../controller/EmployeeController');
 
 
-// PRODUCTS || routes
-router.get('/BrandList', ProductController.BrandList)
-router.get('/CategList', ProductController.CategList)
-router.get('/SliderList', ProductController.SliderList)
-router.get('/ListByBrand/:brandID', ProductController.ListByBrand)
-router.get('/ListByCateg/:categID', ProductController.ListByCateg)
-router.get('/ListByRemark/:Remark', ProductController.ListByRemark)
-router.get('/ListBySimilar/:categoryID', ProductController.ListBySimilar)
-router.get('/ListByKeyword/:Keyword', ProductController.ListByKeyword)
-router.post('/ListByFilter', ProductController.ListByFilter)
-router.get('/ProductDetails/:productID', ProductController.ProductDetails)
+// USER || routes
+router.post('/CreateUser', Auth, UserController.CreateUser);
+router.post('/UserLogin', UserController.UserLogin);
+router.get('/Logout', UserController.Logout);
 
-//  REVIEWS || routes
-router.get('/ReviewList/:productID', ProductController.ReviewList)
+// Projects || routes for admin
+router.post('/create-project-by-admin', Auth, AdminController.CreateProjectByAdmin)
+router.post('/update-project-by-admin/:projectId', Auth, AdminController.UpdateProjectByAdmin)
+router.get('/project-list-by-admin', Auth, AdminController.ProjectListByAdmin)
+router.get('/project-details-by-admin/:projectId', Auth, AdminController.ProjectDetailsByAdmin)
+router.get('/risk-list-by-admin/:severity/:status', Auth, AdminController.RiskListByAdmin)
+router.get('/project-group-list-by-admin/:status', Auth, AdminController.CheckInListByAdmin)
+router.get('/GetHighRisk', Auth, AdminController.GetHighRisk)
+router.get('/GetAllMissingCheckIn/:projectId', Auth, AdminController.GetAllMissingCheckIn)
 
-// USERS || routes
-router.get('/OTPSender/:email', UserController.OTPSender)
-router.get('/VerifyLogin/:email/:OTP', UserController.VerifyLogin)
-router.get('/Logout', UserController.Logout)
+// Projects || routes for client
+router.get('/client-project-list', Auth, ClientController.ProjectListByClient)
+router.get('/client-project-details/:projectId', Auth, ClientController.ProjectDetailsByClient)
+router.post('/create-feedback', Auth, ClientController.CreateFeedback)
 
-router.post('/SaveProfile', Auth, UserController.SaveProfile)
-router.get('/ProfileDetails', Auth, UserController.ProfileDetails)
-
-// WISHES || routes
-router.post('/SaveWishList', Auth, WishController.SaveWishList)
-router.post('/RemoveWish', Auth, WishController.RemoveWish)
-router.get('/WishList', Auth, WishController.WishList)
-
-
-// CARTS || routes
-router.post('/SaveCart', Auth, CartController.SaveCart)
-router.post('/UpdateCart/:cartID', Auth, CartController.UpdateCart)
-router.get('/CartList', Auth, CartController.CartList)
-router.get('/RemoveCart/:cartID', Auth, CartController.RemoveCart)
-
-// INVOICE || routes
-router.post('/CreateInvoice', Auth, InvoiceController.CreateInvoice)
-router.get('/InvoiceList/:userId', Auth, InvoiceController.InvoiceList)
-
-
-// PAYMENT || routes
-router.post('/PaymentSuccess/:trxID', InvoiceController.PaymentSuccess);
-router.post('/PaymentCancel/:trxID', InvoiceController.PaymentCancel);
-router.post('/PaymentFail/:trxID', InvoiceController.PaymentFail);
-router.post('/PaymentIPN/:trxID', InvoiceController.PaymentIPN);
+// Risk || routes for client
+router.post('/report-problem', Auth, EmployeeController.reportProblem)
+router.post('/report-update', Auth, EmployeeController.reportUpdate)
+router.post('/weekly-checkin', Auth, EmployeeController.weeklyCheckIn)
+router.get('/employee-project-lists', Auth, EmployeeController.EmployeesProjectList)
+router.get('/employee-project-details/:projectId', Auth, EmployeeController.EmployeeProjectDetails)
 
 
 module.exports = router;

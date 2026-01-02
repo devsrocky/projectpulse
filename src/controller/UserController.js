@@ -1,44 +1,34 @@
-const { OTPSenderService, VerifyLoginService, SaveProfileService, ProfileDetailsService } = require("../service/UserService");
+const { CreateUserService, UserLoginService } = require("../service/UserService");
 
-exports.OTPSender = async (req, res) => {
-    let data = await OTPSenderService(req);
+exports.CreateUser = async (req, res) => {
+    let data = await CreateUserService(req);
     return res.status(200).json(data)
 }
 
-exports.VerifyLogin = async (req, res) => {
-    let data = await VerifyLoginService(req);
-    if(data?.['status'] === 'success'){
+exports.UserLogin = async (req, res) => {
+    let data = await UserLoginService(req);
+    if(data?.['status'] === 'login'){
         let cookieOption = {
-            expires: new Date(Date.now() + 48 * 60 * 60 * 1000),
-            httpOnly: false,
+            expires: new Date(Date.now() + 72 * 60 * 60 * 1000),
+            httpOnly: false
         }
         res.cookie('token', data['token'], cookieOption)
         return res.status(200).json(data)
     }else{
         return res.status(200).json(data)
     }
-
 }
+
 
 exports.Logout = async (req, res) => {
     try {
         let cookieOption = {
-            expires: new Date(Date.now() + 48 * 60 * 60 * 1000),
+            expires: new Date(Date.now() - 72 * 60 * 60 * 1000),
             httpOnly: false
         }
         res.cookie('token', "", cookieOption)
-        return res.status(200).json({status: 'Logout', message: 'You\'ve logout successfully '})
+        return res.status(200).json({status: 'Logout', message: 'Logout successfully '})
     } catch (err) {
         return {status: 'failed', message: err.toString()}
     }
-}
-
-exports.SaveProfile = async (req, res) => {
-    let data = await SaveProfileService(req);
-    return res.status(200).json(data)
-}
-
-exports.ProfileDetails = async (req, res) => {
-    let data = await ProfileDetailsService(req);
-    return res.status(200).json(data)
 }

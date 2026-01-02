@@ -4,7 +4,7 @@ const KEY = process.env.SECREET_KEY;
 
 
 exports.EncodeToken = (Userdetails) => {
-    const EXPIRE = {expiresIn: '48h'};
+    const EXPIRE = {expiresIn: '72h'};
     const PAYLOAD = Userdetails;
     return jwt.sign(PAYLOAD, KEY, EXPIRE)
 }
