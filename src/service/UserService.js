@@ -30,7 +30,7 @@ const UserLoginService = async (req) => {
         if(user.length > 0){
             let Userdetails = { _id: user[0]['_id'], email: user[0]['email'], role: user[0]['role']}
             let token = await EncodeToken(Userdetails);
-            return {status: 'login', token: token}
+            return {status: 'login', role: user[0]['role'], token: token}
         }else{
             return {status: 'failed', message: 'User didn\'t find'}
         }
