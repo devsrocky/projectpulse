@@ -9,8 +9,10 @@ exports.UserLogin = async (req, res) => {
     let data = await UserLoginService(req);
     if(data?.['status'] === 'login'){
         let cookieOption = {
+            httpOnly: true,
             expires: new Date(Date.now() + 72 * 60 * 60 * 1000),
-            httpOnly: false
+            sameSite: 'none',
+            secure: true,
         }
         res.cookie('token', data['token'], cookieOption)
         return res.status(200).json(data)
