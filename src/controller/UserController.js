@@ -8,26 +8,12 @@ exports.CreateUser = async (req, res) => {
 exports.UserLogin = async (req, res) => {
     let data = await UserLoginService(req);
     if(data?.['status'] === 'login'){
-        // let cookieOption = {
-        //     httpOnly: true,
-        //     expires: new Date(Date.now() + 72 * 60 * 60 * 1000)
-        // }
+        let cookieOption = {
+            httpOnly: true,
+            expires: new Date(Date.now() + 72 * 60 * 60 * 1000)
+        }
 
-        // let cookieOptions = {
-        //       httpOnly: true,                                // secure & middleware readable
-        //       secure: process.env.NODE_ENV === 'production', // HTTPS required in production
-        //       sameSite: 'none',                              // important for cross-origin
-        //       maxAge: 72 * 60 * 60 * 1000,                  // 72 hours
-        //       path: '/',                                     // available on all routes
-        // };
 
-        const cookieOptions = {
-          httpOnly: true,
-          secure: true,
-          sameSite: 'none', // 'none' only in prod
-          maxAge: 72 * 60 * 60 * 1000, // 72 hours
-          path: '/',
-        };
         res.cookie('token', data['token'], cookieOption)
         return res.status(200).json(data)
     }else{
