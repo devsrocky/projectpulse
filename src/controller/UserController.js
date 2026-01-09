@@ -10,7 +10,7 @@ exports.UserLogin = async (req, res) => {
     if(data?.['status'] === 'login'){
         let cookieOption = {
             httpOnly: true,
-            secure: false,
+            secure: true,
             expires: new Date(Date.now() + 72 * 60 * 60 * 1000)
             sameSite: 'none',
         }
