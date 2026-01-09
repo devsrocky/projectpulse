@@ -23,8 +23,8 @@ exports.UserLogin = async (req, res) => {
 
         const cookieOptions = {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production', // true in production, false on localhost
-          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' only in prod
+          secure: true,
+          sameSite: 'none', // 'none' only in prod
           maxAge: 72 * 60 * 60 * 1000, // 72 hours
           path: '/',
         };
