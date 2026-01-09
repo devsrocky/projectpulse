@@ -3,6 +3,7 @@ const app = new express();
 const router = require('./src/route/api');
 
 // IMPORT ALL PACKAGE
+app.set('trust proxy', 1);
 const path = require('path');
 const helmet =require('helmet');
 const cors = require('cors');
