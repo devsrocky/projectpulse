@@ -14,8 +14,8 @@ exports.UserLogin = async (req, res) => {
         }
 
 
-        // res.cookie('token', data['token'], cookieOption)
-        res.setHeader('Set-Cookie', `token=${response.token.token}; Path=/; HttpOnly; Max-Age=${72*60*60}`);
+        res.cookie('token', data['token'], cookieOption)
+        // res.setHeader('Set-Cookie', `token=${response.token.token}; Path=/; HttpOnly; Max-Age=${72*60*60}`);
         return res.status(200).json(data)
     }else{
         return res.status(200).json(data)
