@@ -33,13 +33,33 @@ app.use(xss())
 //prodhanr72_pulse
 //projecT&pulse1040
 // MONGOOSE IMPLEMENTATION
-mongoose.set('bufferCommands', false);
-mongoose.connect(`mongodb+srv://prodhanr72_pulse:projecT&pulse1040@cluster0.ngtlsib.mongodb.net/projectpulse`).then(()=> {
-    console.log('Database connected!')
-}).catch((err) => {
-    console.log(err.toString())
-})
+// mongoose.set('bufferCommands', false);
+// mongoose.connect(`mongodb+srv://prodhanr72_pulse:projecT&pulse1040@cluster0.ngtlsib.mongodb.net/projectpulse`).then(()=> {
+//     console.log('Database connected!')
+// }).catch((err) => {
+//     console.log(err.toString())
+// })
 
+mongoose.set('bufferCommands', false);
+async function startServer() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 30000,
+    });
+
+    console.log('Database connected!');
+
+    app.listen(process.env.PORT || 5000, () => {
+      console.log('Server running');
+    });
+
+  } catch (err) {
+    console.error('MongoDB connection failed:', err);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 // RATE LIMIT SPECIFY
 const limiter = rateLimit({windowMs: 15 * 60 * 1000, max: 5000});
