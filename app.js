@@ -15,16 +15,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
-//prodhanr72_pulse
-//projecT&pulse1040
-// MONGOOSE IMPLEMENTATION
-mongoose.connect(`mongodb+srv://prodhanr72_pulse:projecT&pulse1040@cluster0.ngtlsib.mongodb.net/projectpulse`).then(()=> {
-    console.log('Database connected!')
-}).catch((err) => {
-    console.log(err.toString())
-})
-
-
 // CORS IMPLEMENTATION
 app.use(cors());
 
@@ -40,6 +30,15 @@ app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(sanitizer());
 app.use(xss())
 
+//prodhanr72_pulse
+//projecT&pulse1040
+// MONGOOSE IMPLEMENTATION
+mongoose.set('bufferCommands', false);
+mongoose.connect(`mongodb+srv://prodhanr72_pulse:projecT&pulse1040@cluster0.ngtlsib.mongodb.net/projectpulse`).then(()=> {
+    console.log('Database connected!')
+}).catch((err) => {
+    console.log(err.toString())
+})
 
 
 // RATE LIMIT SPECIFY
